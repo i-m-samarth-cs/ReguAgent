@@ -14,7 +14,7 @@ export function LoginForm({
   className,
   onSubmit,
   ...props
-}: React.ComponentPropsWithoutRef<"div"> & { onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void }) {
+}: Omit<React.ComponentPropsWithoutRef<"div">, "onSubmit"> & { onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void }) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
