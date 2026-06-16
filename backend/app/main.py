@@ -32,6 +32,18 @@ app.include_router(reports.router)
 @app.on_event("startup")
 def on_startup():
     create_db_and_tables()
+    from sqlmodel import Session, select
+    from app.database import engine
+    from app.models.models import User
+    with Session(engine) as session:
+        try:
+            users_exist = session.exec(select(User)).first()
+            if not users_exist:
+                print("[startup] No users found. Running auto-seed...")
+                from app.seed_data import seed
+                seed(drop_all=False)
+        except Exception as e:
+            print(f"[startup] Auto-seed skipped or failed: {e}")
 
 
 @app.get("/health")

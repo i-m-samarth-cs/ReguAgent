@@ -12,11 +12,12 @@ from app.models import (
 from app.auth.jwt import hash_password
 
 
-def seed():
+def seed(drop_all: bool = True):
     from sqlmodel import SQLModel
-    print("[seed] Dropping all tables for fresh seed...")
-    SQLModel.metadata.drop_all(engine)
-    create_db_and_tables()
+    if drop_all:
+        print("[seed] Dropping all tables for fresh seed...")
+        SQLModel.metadata.drop_all(engine)
+        create_db_and_tables()
     with Session(engine) as session:
 
         print("[seed] Seeding demo data...")
